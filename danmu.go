@@ -12,8 +12,9 @@ const (
 	DanmuXMLUrl = "https://api.bilibili.com/x/v1/dm/list.so"
 )
 
+// GetDanmuByCid 通过用户cid获取弹幕
 func GetDanmuByCid(cid int64) ([]string, error) {
-	url :=  fmt.Sprintf("%s?oid=%d", DanmuXMLUrl, cid)
+	url := fmt.Sprintf("%s?oid=%d", DanmuXMLUrl, cid)
 	resp, err := http.Get(url)
 	if err != nil {
 		fmt.Println(err)
