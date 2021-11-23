@@ -97,7 +97,14 @@ func GetCommentListByBvidList(bvidList []string) map[string][]string {
 	for i := 0; i < videoNums; i++ {
 		go func(bvid string) {
 			defer wg.Done()
-			comments := getCommentsByBvid(bvid)
+			pageNum := 1 // 默认从第一页开始
+			comments := getCommentsByBvid(bvid, pageNum)
+			// 如果不止20条，反复翻页获取
+			for len(comments)-pageNum*20 >= 0 {
+				pageNum++
+				extraComments := getCommentsByBvid(bvid, pageNum)
+				comments = append(comments, extraComments...)
+			}
 			commentsMutex.Lock()
 			defer commentsMutex.Unlock()
 			bvidToComments[bvid] = comments
@@ -108,9 +115,9 @@ func GetCommentListByBvidList(bvidList []string) map[string][]string {
 }
 
 // GetCommentsByBvid 通过bvid获取评论列表
-func getCommentsByBvid(bvid string) []string {
-	// pn = page
-	url := fmt.Sprintf("%s?pn=1&type=1&oid=%d&sort=2", GetCommentUrl, biligo.BV2AV(bvid))
+func getCommentsByBvid(bvid string, pageNum int) []string {
+	// pn = page，一页20条
+	url := fmt.Sprintf("%s?pn=%d&type=1&oid=%d&sort=2", GetCommentUrl, pageNum, biligo.BV2AV(bvid))
 	resp, err := http.Get(url)
 	if err != nil {
 		fmt.Println(err)

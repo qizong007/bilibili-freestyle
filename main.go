@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/gookit/color"
 	"github.com/yanyiwu/gojieba"
 	"log"
@@ -18,13 +17,16 @@ func main() {
 	// 查看文件是否存在
 	if !CheckFileIsExist(CommentsFilePath) || !CheckFileIsExist(DanmuFilePath) {
 		// 1. 获取我的所有视频（bvid列表）
+		color.Blue.Println("开始加载视频...")
 		bvidList := GetBvidListByMid(MID)
 		videoNums := len(bvidList)
-		fmt.Println("视频总数：", videoNums)
+		color.Blue.Println("加载视频结束，共", videoNums, "条视频")
 		// 2. 获取所有视频评论列表
 		bvidToComments := GetCommentListByBvidList(bvidList)
+		color.Blue.Println("加载评论结束...")
 		// 3. 获取所有视频弹幕列表
 		bvidToDanmu := GetDanmuListByBvidList(bvidList)
+		color.Blue.Println("加载弹幕结束...")
 		// 4. 分别分词，写入本地文件
 		jieba := gojieba.NewJieba()
 		defer jieba.Free()
