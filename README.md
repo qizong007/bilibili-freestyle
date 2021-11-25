@@ -4,8 +4,7 @@
 
 - 创作背景：做视频，拿来freestyle用
 - 注意点：哥们毫无工程化可言，写的比较随意
-
-- 期望：有兴趣的哥们给点建议，视频 or 代码都ok
+- 期望：有兴趣的哥们给点建议，[视频](https://www.bilibili.com/video/BV1Qf4y1K7ir) or 代码都ok
 
 ## 功能
 
